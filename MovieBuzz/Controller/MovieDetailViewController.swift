@@ -14,9 +14,11 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        //connect table view to controller
+        // connect table view to controller
         tableView.delegate = self
         tableView.dataSource = self
+        
+        //register XIBs
         tableView.register(
             UINib(nibName: "ReviewsViewCell", bundle: nil),
             forCellReuseIdentifier: "ReviewsViewCell"
@@ -29,11 +31,11 @@ class MovieDetailViewController: UIViewController {
             UINib(nibName: "SimilarViewCell", bundle: nil),
             forCellReuseIdentifier: "SimilarViewCell"
         )
+        
+     
     }
-
-    
 }
-
+    
 extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -89,22 +91,9 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
             case 2:
                 return 250 //Cast
             case 3:
-                return 250 //Similar movies
+                return 300 //Similar movies
             default:
                 return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-            case 1:
-                return "Reviews"
-            case 2:
-                return "Cast"
-            case 3:
-                return "Similar"
-            default:
-                return nil
         }
     }
 }

@@ -36,7 +36,9 @@
  */
 //codable: convert JSON <-> Swift automatically.
 
+import Foundation
 struct Results: Codable {
+    let id: Int
     let title: String
     let overview: String
     let poster_path: String?
@@ -45,6 +47,11 @@ struct Results: Codable {
     //https://image.tmdb.org/t/p/w500/wDWwtvkRRlgTiUr6TyLSMX8FCuZ.jpg
     var posterURL: String? {
         guard let posterPath = poster_path else { return nil}
-        return Constants().posterImageURL + posterPath
+        return Constants.posterImageURL + posterPath
+    }
+    //computed property
+    //https://api.themoviedb.org/3/movie/9300/similar?api_key=9a7a83ab6ed564c44e09ef91526db920
+    var similarURL: String {
+        return Constants.baseURL + "/\(id)/similar?api_key=\(Constants.apiKey)"
     }
 }

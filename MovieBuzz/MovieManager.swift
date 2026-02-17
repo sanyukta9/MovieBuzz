@@ -40,15 +40,18 @@ class MovieManager {
     func parseJSONData(_ movieData: Data) -> [Results]?{
         do {
             let decodedData = try JSONDecoder().decode(TMDBResponse.self, from: movieData)
+            
             print("page: \(decodedData.page)")
             print("total_pages: \(decodedData.total_pages)")
             print("total_results: \(decodedData.total_results)")
             if let first = decodedData.results.first {
+                print("first.id: \(first.id)")
                 print("first.title: \(first.title)")
                 print("first.overview: \(first.overview)")
                 print("first.posterURL: \(first.posterURL!)")
                 print("first.poster_path: \(first.poster_path!)")
                 print("first.releaseDate: \(first.release_date)")
+                print("first.similarURL: \(first.similarURL)")
             }
             return decodedData.results
         }

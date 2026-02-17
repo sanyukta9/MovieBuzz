@@ -16,19 +16,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQT-SO-JPC">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="108"/>
-                                <color key="backgroundColor" systemColor="separatorColor"/>
-                            </view>
                             <searchBar contentMode="redraw" placeholder="Search Movies..." translatesAutoresizingMaskIntoConstraints="NO" id="dxE-98-32a">
-                                <rect key="frame" x="0.0" y="108" width="393" height="64"/>
+                                <rect key="frame" x="0.0" y="54" width="393" height="64"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Sud-p3-GzL"/>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="RTG-Hb-T8i">
-                                <rect key="frame" x="0.0" y="172" width="393" height="612"/>
+                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieListViewCell" rowHeight="286" id="4Oe-Ch-hT6" customClass="MovieListViewCell" customModule="MovieBuzz" customModuleProvider="target">
@@ -105,6 +101,10 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQT-SO-JPC">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="54"/>
+                                <color key="backgroundColor" systemColor="separatorColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -135,6 +135,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8gc-cE-e8T"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="RTG-Hb-T8i" id="puU-oC-0YI"/>
                     </connections>
@@ -152,7 +153,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="kj8-wL-iRn">
-                                <rect key="frame" x="0.0" y="172" width="393" height="680"/>
+                                <rect key="frame" x="0.0" y="118" width="393" height="734"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieDetailViewCell" rowHeight="280" id="u89-jO-FKF" customClass="MovieDetailViewCell" customModule="MovieBuzz" customModuleProvider="target">

@@ -10,10 +10,13 @@ import UIKit
 class SimilarCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var similarPosterImage: UIImageView!
-
+    
+    @IBOutlet weak var similarMovieName: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        similarPosterImage.layer.cornerRadius = 12
     }
 
 }

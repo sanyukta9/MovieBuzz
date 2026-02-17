@@ -19,7 +19,7 @@ class MovieListViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-            // Initialization code
+        // Initialization code
     }
     
         // Configure cell with movie data

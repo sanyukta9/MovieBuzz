@@ -23,7 +23,7 @@ class MovieListingViewController: UIViewController {
     }
     
     func fetchAllMovies() {
-        let endpoint = Constants().baseURL + Constants().nowPlaying + "?api_key=" + Constants().apiKey
+        let endpoint = Constants.baseURL + Constants.nowPlaying + "?api_key=" + Constants.apiKey
         movieManager.fetchMovies(urlString: endpoint) { [weak self] movies in
             guard let self = self else { return }
                 // Store movies in the correct category index
