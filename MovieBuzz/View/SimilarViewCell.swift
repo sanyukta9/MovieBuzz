@@ -2,40 +2,22 @@
 //  SimilarViewCell.swift
 //  MovieBuzz
 //
-//  Created by Sanyukta Adhate on 16/02/26.
+//  Created by Sanyukta Adhate on 17/02/26.
 //
 
 import UIKit
 
 class SimilarViewCell: UITableViewCell {
 
-    @IBOutlet weak var collectionView: UICollectionView!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(
-            UINib(nibName: "SimilarCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "SimilarCollectionViewCell"
-        )
     }
 
-}
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
 
-extension SimilarViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        // Configure the view for the selected state
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "SimilarCollectionViewCell",
-            for: indexPath
-        ) as! SimilarCollectionViewCell
-        return cell
-    }
-    
     
 }
