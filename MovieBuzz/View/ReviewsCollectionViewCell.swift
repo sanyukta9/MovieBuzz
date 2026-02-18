@@ -17,7 +17,9 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        collectionViewCell.layer.cornerRadius = 10
+        collectionViewCell.layer.cornerRadius = 12
+        self.backgroundColor = .clear
+        contentView.backgroundColor = .clear
     }
 
 }

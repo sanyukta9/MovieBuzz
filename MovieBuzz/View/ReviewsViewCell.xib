@@ -10,24 +10,28 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" restorationIdentifier="ReviewsViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewsViewCell" rowHeight="240" id="KGk-i7-Jjw" customClass="ReviewsViewCell" customModule="MovieBuzz" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="245" height="240"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="ReviewsViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewsViewCell" rowHeight="245" id="KGk-i7-Jjw" customClass="ReviewsViewCell" customModule="MovieBuzz" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="287" height="245"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="245" height="240"/>
+                <rect key="frame" x="0.0" y="0.0" width="287" height="245"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reviews" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="arH-fl-Dez">
-                        <rect key="frame" x="16" y="15.999999999999998" width="229" height="19.333333333333329"/>
+                        <rect key="frame" x="16" y="16" width="270" height="29"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="LWV-w5-Y0e">
-                        <rect key="frame" x="16" y="35.333333333333329" width="229" height="204.66666666666669"/>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="LWV-w5-Y0e">
+                        <rect key="frame" x="16" y="45" width="270" height="200"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="270" id="XPs-g0-y0O"/>
+                            <constraint firstAttribute="height" constant="200" id="ebo-7v-asx"/>
+                        </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ORj-GU-2cR">
-                            <size key="itemSize" width="250" height="150"/>
+                            <size key="itemSize" width="270" height="200"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -41,14 +45,17 @@
                     <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="DR7-YW-PNG"/>
                     <constraint firstItem="arH-fl-Dez" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="T8n-lG-Vvm"/>
                     <constraint firstItem="arH-fl-Dez" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="kqa-Ww-0nR"/>
+                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="lHP-xx-Zrc"/>
                     <constraint firstItem="LWV-w5-Y0e" firstAttribute="top" secondItem="arH-fl-Dez" secondAttribute="bottom" id="naK-bt-Lpj"/>
+                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="q1D-1R-aGm"/>
+                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="rNT-UW-aTA"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="collectionView" destination="LWV-w5-Y0e" id="7LH-Ib-aMB"/>
             </connections>
-            <point key="canvasLocation" x="-173.2824427480916" y="171.12676056338029"/>
+            <point key="canvasLocation" x="-141.22137404580153" y="169.36619718309859"/>
         </tableViewCell>
     </objects>
     <resources>

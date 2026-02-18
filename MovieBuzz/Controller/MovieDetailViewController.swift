@@ -8,17 +8,20 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
+        //REVIEWS
+    var movieId: Int!
+    var reviews: [ReviewsResults] = []
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        // connect table view to controller
+            // Do any additional setup after loading the view.
+            // connect table view to controller
         tableView.delegate = self
         tableView.dataSource = self
         
-        //register XIBs
+            //register XIBs
         tableView.register(
             UINib(nibName: "ReviewsViewCell", bundle: nil),
             forCellReuseIdentifier: "ReviewsViewCell"
@@ -32,8 +35,45 @@ class MovieDetailViewController: UIViewController {
             forCellReuseIdentifier: "SimilarViewCell"
         )
         
-     
+        fetchAllReviews()
     }
+    
+    
+    func fetchAllReviews() {
+        guard let movieId = movieId else { print("movieId is nil"); return }
+        let endpoint = Constants.baseURL + "/\(movieId)/reviews?api_key=\(Constants.apiKey)"
+        print("Fetching: \(endpoint)")
+        
+            // 1. Create a URL from a string
+        guard let url = URL(string: endpoint) else { return }
+        
+            // 2. Create a URLSession
+        let session = URLSession.shared
+        
+            // 3. Give URL session a task to fetch data from the Server (asynchronous)
+        let task = session.dataTask(with: url) { [weak self] data, response, error in
+            guard let safeData = data, error == nil else {
+                print("Error loading Reviews: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            print("Raw JSON: \(String(data: safeData, encoding: .utf8) ?? "nil")")
+                // 4. Parse the JSON data into swift objects
+            if let parsedReviews = try? JSONDecoder().decode(ReviewsResponse.self, from: safeData) {
+                DispatchQueue.main.async {
+                    self?.reviews = parsedReviews.results
+                    print("Reviews count: \(parsedReviews.results.count)")
+                    self?.tableView.reloadData()
+                }
+            }
+            else {
+                print("Decode failed")
+            }
+        }
+        
+            // 5. Start the task ← must be OUTSIDE the closure
+        task.resume()
+    }
+
 }
     
 extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -61,6 +101,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! ReviewsViewCell
                 
+                cell.configure(with: reviews)
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(

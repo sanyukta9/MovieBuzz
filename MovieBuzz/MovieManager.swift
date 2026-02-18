@@ -51,7 +51,6 @@ class MovieManager {
                 print("first.posterURL: \(first.posterURL!)")
                 print("first.poster_path: \(first.poster_path!)")
                 print("first.releaseDate: \(first.release_date)")
-                print("first.similarURL: \(first.similarURL)")
             }
             return decodedData.results
         }

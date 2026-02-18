@@ -8,6 +8,7 @@
 import UIKit
 
 class ReviewsViewCell: UITableViewCell {
+    var reviews: [ReviewsResults] = []
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -22,18 +23,17 @@ class ReviewsViewCell: UITableViewCell {
             forCellWithReuseIdentifier: "ReviewsCollectionViewCell"
         )
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func configure(with reviews: [ReviewsResults]) {
+        self.reviews = reviews
+        collectionView.reloadData()
     }
     
 }
 
-extension ReviewsViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ReviewsViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return reviews.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -41,6 +41,10 @@ extension ReviewsViewCell: UICollectionViewDelegate, UICollectionViewDataSource 
             withReuseIdentifier: "ReviewsCollectionViewCell",
             for: indexPath
         ) as! ReviewsCollectionViewCell
+        
+        let review = reviews[indexPath.item]
+        cell.reviewerName.text = review.author
+        cell.reviewContent.text = review.content
         return cell
     }
     

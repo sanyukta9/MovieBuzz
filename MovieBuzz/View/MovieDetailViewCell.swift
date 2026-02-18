@@ -23,7 +23,4 @@ class MovieDetailViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func configure(){
-        
-    }
 }

@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,24 +18,31 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Od-DH-ZBQ">
-                        <rect key="frame" x="16" y="0.0" width="569" height="316"/>
+                        <rect key="frame" x="16" y="8" width="569" height="292"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDV-pC-C6D">
-                                <rect key="frame" x="16" y="16" width="41.666666666666657" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDV-pC-C6D">
+                                <rect key="frame" x="16" y="16" width="553" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Review" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrT-nD-M5u">
-                                <rect key="frame" x="16" y="50" width="48" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Review" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrT-nD-M5u">
+                                <rect key="frame" x="16" y="50" width="553" height="242"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="UrT-nD-M5u" secondAttribute="bottom" id="06n-k9-UTV"/>
+                            <constraint firstItem="UrT-nD-M5u" firstAttribute="top" secondItem="dDV-pC-C6D" secondAttribute="bottom" constant="16" id="4qj-lf-XnR"/>
+                            <constraint firstItem="UrT-nD-M5u" firstAttribute="leading" secondItem="4Od-DH-ZBQ" secondAttribute="leading" constant="16" id="AU4-KV-M32"/>
+                            <constraint firstAttribute="trailing" secondItem="dDV-pC-C6D" secondAttribute="trailing" id="KxL-Nq-8mf"/>
+                            <constraint firstItem="dDV-pC-C6D" firstAttribute="top" secondItem="4Od-DH-ZBQ" secondAttribute="top" constant="16" id="RBH-Sg-ZN3"/>
+                            <constraint firstItem="dDV-pC-C6D" firstAttribute="leading" secondItem="4Od-DH-ZBQ" secondAttribute="leading" constant="16" id="U3z-Nr-2yb"/>
+                            <constraint firstAttribute="trailing" secondItem="UrT-nD-M5u" secondAttribute="trailing" id="uZZ-EY-a7B"/>
+                        </constraints>
                     </view>
                 </subviews>
             </view>
@@ -42,9 +50,9 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="4Od-DH-ZBQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="8sB-UG-Mui"/>
-                <constraint firstItem="4Od-DH-ZBQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="QPv-Jg-0Zo"/>
-                <constraint firstAttribute="bottom" secondItem="4Od-DH-ZBQ" secondAttribute="bottom" id="WKC-ha-b1E"/>
+                <constraint firstAttribute="bottom" secondItem="4Od-DH-ZBQ" secondAttribute="bottom" constant="16" id="ilE-6P-Io7"/>
                 <constraint firstAttribute="trailing" secondItem="4Od-DH-ZBQ" secondAttribute="trailing" id="mDQ-dq-CEA"/>
+                <constraint firstItem="4Od-DH-ZBQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="pS6-sG-ABd"/>
             </constraints>
             <size key="customSize" width="585" height="316"/>
             <connections>
@@ -55,4 +63,9 @@
             <point key="canvasLocation" x="72.51908396946564" y="196.47887323943664"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
