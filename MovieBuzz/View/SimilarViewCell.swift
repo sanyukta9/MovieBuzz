@@ -1,13 +1,24 @@
-    //
-    //  SimilarViewCell.swift
-    //  MovieBuzz
-    //
-    //  Created by Sanyukta Adhate on 16/02/26.
-    //
+//
+//  SimilarViewCell.swift
+//  MovieBuzz
+//
+//  Created by Sanyukta Adhate on 16/02/26.
+//
 
 import UIKit
 
+protocol SimilarViewCellDelegate: AnyObject {
+    func similarViewCell(_ cell: SimilarViewCell, didSelectMovie movie: Results)
+}
+
 class SimilarViewCell: UITableViewCell {
+    weak var delegate: SimilarViewCellDelegate?
+    
+    var movies: [Results] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
     

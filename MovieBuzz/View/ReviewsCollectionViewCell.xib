@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Od-DH-ZBQ">
-                        <rect key="frame" x="0.0" y="0.0" width="585" height="316"/>
+                        <rect key="frame" x="16" y="0.0" width="569" height="316"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDV-pC-C6D">
                                 <rect key="frame" x="16" y="16" width="41.666666666666657" height="18"/>
@@ -41,7 +41,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="4Od-DH-ZBQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Or6-Ex-ljl"/>
+                <constraint firstItem="4Od-DH-ZBQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="8sB-UG-Mui"/>
                 <constraint firstItem="4Od-DH-ZBQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="QPv-Jg-0Zo"/>
                 <constraint firstAttribute="bottom" secondItem="4Od-DH-ZBQ" secondAttribute="bottom" id="WKC-ha-b1E"/>
                 <constraint firstAttribute="trailing" secondItem="4Od-DH-ZBQ" secondAttribute="trailing" id="mDQ-dq-CEA"/>
