@@ -8,9 +8,11 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
-        //REVIEWS
     var movieId: Int!
+    private var details: DetailsResponse?
     private var reviews: [ReviewsResults] = []
+    private var casts: [CastResults] = []
+    private var similar: [Results] = []
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,18 +43,24 @@ class MovieDetailViewController: UIViewController {
     
     private func fetchAll(){
         fetchDetails()
-        fetchCast()
         fetchReviews()
+        fetchCast()
         fetchSimilar()
     }
     
         //MARK: - Header Details
     func fetchDetails() {
-        
-    }
-        //MARK: - Cast
-    func fetchCast() {
-        
+        //https://api.themoviedb.org/3/movie/9300?api_key=9a7a83ab6ed564c44e09ef91526db920
+        guard let movieId else { print("MovieId is nil"); return }
+        let endpoint = "\(Constants.baseURL)/\(movieId)?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(DetailsResponse.self, urlString: endpoint) {
+            [weak self] response in
+            guard let self, let response else { return }
+            self.details = response
+            DispatchQueue.main.async {
+                self.tableView.reloadSections([0], with: .none)
+            }
+        }
     }
         //MARK: - Reviews
     func fetchReviews() {
@@ -68,13 +76,37 @@ class MovieDetailViewController: UIViewController {
             }
         }
     }
+        //MARK: - Cast
+    func fetchCast() {
+        //https://api.themoviedb.org/3/movie/9300/credits?api_key=9a7a83ab6ed564c44e09ef91526db920
+        guard let movieId else { print("MovieId is nil"); return }
+        let endpoint = "\(Constants.baseURL)/\(movieId)/credits?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(CastResponse.self, urlString: endpoint) {
+            [weak self] response in
+            guard let self, let cast = response?.cast else { return }
+            self.casts = cast
+            DispatchQueue.main.async {
+                self.tableView.reloadSections([2], with: .none)
+            }
+        }
+    }
         //MARK: - Similar Movies
     func fetchSimilar() {
-        
+        //https://api.themoviedb.org/3/movie/9300/similar?api_key=9a7a83ab6ed564c44e09ef91526db920
+        guard let movieId else { print("MovieId is nil"); return }
+        let endpoint = "\(Constants.baseURL)/\(movieId)/similar?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(SimilarResponse.self, urlString: endpoint) {
+            [weak self] response in
+            guard let self, let similar = response?.results else { return }
+            self.similar = similar
+            DispatchQueue.main.async {
+                self.tableView.reloadSections([3], with: .none)
+            }
+        }
     }
-
-
 }
+
+    //MARK: - Deleagte, Data Source, Row Height
     
 extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -94,6 +126,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! MovieDetailViewCell
                 
+                if let details { cell.configure(with: details) }
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(
@@ -109,6 +142,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! CastViewCell
                 
+                cell.configure(with: casts)
                 return cell
             case 3:
                 let cell = tableView.dequeueReusableCell(
@@ -116,6 +150,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! SimilarViewCell
                 
+                cell.configure(with: similar)
                 return cell
             default:
                 return UITableViewCell()

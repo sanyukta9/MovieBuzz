@@ -18,13 +18,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reviews" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="arH-fl-Dez">
-                        <rect key="frame" x="16" y="16" width="270" height="29"/>
+                        <rect key="frame" x="16.000000000000004" y="16" width="62.333333333333343" height="13"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="LWV-w5-Y0e">
-                        <rect key="frame" x="16" y="45" width="270" height="200"/>
+                        <rect key="frame" x="16" y="37" width="270" height="200"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="270" id="XPs-g0-y0O"/>
@@ -39,16 +39,14 @@
                     </collectionView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="LWV-w5-Y0e" secondAttribute="bottom" id="2GM-MT-Wmb"/>
                     <constraint firstAttribute="trailing" secondItem="arH-fl-Dez" secondAttribute="trailing" id="3Zg-NS-xp2"/>
+                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" constant="16" id="3sX-Yf-s0H"/>
                     <constraint firstItem="LWV-w5-Y0e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="8YO-wd-8TQ"/>
                     <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="DR7-YW-PNG"/>
+                    <constraint firstItem="LWV-w5-Y0e" firstAttribute="top" secondItem="arH-fl-Dez" secondAttribute="bottom" constant="8" id="J0K-TO-mHH"/>
                     <constraint firstItem="arH-fl-Dez" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="T8n-lG-Vvm"/>
+                    <constraint firstAttribute="bottom" secondItem="LWV-w5-Y0e" secondAttribute="bottom" constant="8" id="UWb-aB-wd3"/>
                     <constraint firstItem="arH-fl-Dez" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="kqa-Ww-0nR"/>
-                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="lHP-xx-Zrc"/>
-                    <constraint firstItem="LWV-w5-Y0e" firstAttribute="top" secondItem="arH-fl-Dez" secondAttribute="bottom" id="naK-bt-Lpj"/>
-                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="q1D-1R-aGm"/>
-                    <constraint firstAttribute="trailing" secondItem="LWV-w5-Y0e" secondAttribute="trailing" id="rNT-UW-aTA"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

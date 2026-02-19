@@ -23,7 +23,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ATf-yj-bVP">
                                 <rect key="frame" x="16" y="0.0" width="149" height="228"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NbP-uq-FPA">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NbP-uq-FPA">
                                         <rect key="frame" x="0.0" y="0.0" width="149" height="207"/>
                                         <color key="backgroundColor" red="0.086742334067821503" green="0.71776396036148071" blue="0.30935445427894592" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>

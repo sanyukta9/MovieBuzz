@@ -7,18 +7,8 @@
 
 import UIKit
 
-protocol SimilarViewCellDelegate: AnyObject {
-    func similarViewCell(_ cell: SimilarViewCell, didSelectMovie movie: Results)
-}
-
 class SimilarViewCell: UITableViewCell {
-    weak var delegate: SimilarViewCellDelegate?
-    
-    var movies: [Results] = [] {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    private var similar: [Results] = []
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -34,11 +24,16 @@ class SimilarViewCell: UITableViewCell {
         
     }
     
+    func configure(with similar: [Results]) {
+        self.similar = similar
+        collectionView.reloadData()
+    }
+    
 }
 
 extension SimilarViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return similar.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -47,6 +42,7 @@ extension SimilarViewCell: UICollectionViewDelegate, UICollectionViewDataSource 
             for: indexPath
         ) as! SimilarCollectionViewCell
         
+        cell.configure(with: similar[indexPath.row])
         return cell
         
     }

@@ -5,7 +5,7 @@
 //  Created by Sanyukta Adhate on 19/02/26.
 //
 
-struct SimilarResponse {
+struct SimilarResponse: Codable {
     let page: Int
     let results: [Results]
     let total_pages: Int

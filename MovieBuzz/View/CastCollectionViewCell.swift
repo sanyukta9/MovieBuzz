@@ -19,5 +19,17 @@ class CastCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        castImage.layer.cornerRadius = castImage.frame.width / 2
+        castImage.clipsToBounds = true
+    }
+    
+    func configure(with casts: CastResults) {
+        castImage.loadImage(from: casts.profilePathURL)
+        castFullName.text = casts.name
+        castShortName.text = casts.character
+    }
 
 }

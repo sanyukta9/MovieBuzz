@@ -8,6 +8,7 @@
 import UIKit
 
 class CastViewCell: UITableViewCell {
+    private var casts: [CastResults] = []
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -29,20 +30,26 @@ class CastViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func configure(with casts: [CastResults]) {
+        self.casts = casts
+        collectionView.reloadData()
+    }
+    
 }
 
 extension CastViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return casts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "CastCollectionViewCell",
             for: indexPath
-        )
+        ) as! CastCollectionViewCell
+        
+        cell.configure(with: casts[indexPath.item])
         return cell
     }
-    
     
 }

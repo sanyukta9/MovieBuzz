@@ -10,7 +10,6 @@ import UIKit
 
 class MovieListViewCell: UITableViewCell {
     
-    
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var movieName: UILabel!
     @IBOutlet weak var releaseDate: UILabel!
@@ -27,42 +26,9 @@ class MovieListViewCell: UITableViewCell {
         movieName.text = movie.title
         releaseDate.text = formatDate(movie.release_date)
         overview.text = movie.overview
-            // Load poster image
-        if let posterURL = movie.posterURL {
-            loadImage(from: posterURL)
-        } else {
-            showPlaceholder()
-        }
-    }
-    
-        //MARK: - Load the poster image from URL
-    
-    func loadImage(from urlString: String) {
-        let urlString = urlString
-            //1. Create a URL from a string
-        guard let url = URL(string: urlString) else { showPlaceholder(); return }
-            //2. Create a URLSession
-        let session = URLSession.shared
-            //3. Give URL session a task to fetch data from the Server (asynchronous)
-        let task = session.dataTask(with: url) {[weak self] data, response, error in
-            guard let safeData = data, error == nil else {
-                print("Error loading image: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-                //4. Parse Converts raw image data into a UIImage
-            guard let image = UIImage(data: safeData) else {
-                DispatchQueue.main.async {
-                    self?.showPlaceholder()
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self?.posterImageView.image = image
-            }
-        }
-            //5. Start the task
-        task.resume()
+        // Load poster image
+        guard let posterImageView else { showPlaceholder(); return }
+        posterImageView.loadImage(from: movie.posterURL)
     }
     
         //MARK: - Show placeholder if image fails
