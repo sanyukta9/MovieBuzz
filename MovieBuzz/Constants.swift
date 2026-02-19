@@ -10,5 +10,4 @@ struct Constants {
     static let baseURL  = "https://api.themoviedb.org/3/movie"
     static let posterImageURL = "https://image.tmdb.org/t/p/w500"
     static let apiKey = "9a7a83ab6ed564c44e09ef91526db920"
-    static let nowPlaying = "/now_playing"
 }

@@ -21,5 +21,10 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         self.backgroundColor = .clear
         contentView.backgroundColor = .clear
     }
+    
+    func configure(with review: ReviewsResults) {
+        reviewerName.text = review.author
+        reviewContent.text = review.content
+    }
 
 }

@@ -10,18 +10,18 @@ import UIKit
 class MovieDetailViewController: UIViewController {
         //REVIEWS
     var movieId: Int!
-    var reviews: [ReviewsResults] = []
+    private var reviews: [ReviewsResults] = []
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            // Do any additional setup after loading the view.
-            // connect table view to controller
+        // Do any additional setup after loading the view.
+        // connect table view to controller
         tableView.delegate = self
         tableView.dataSource = self
         
-            //register XIBs
+        //register XIBs
         tableView.register(
             UINib(nibName: "ReviewsViewCell", bundle: nil),
             forCellReuseIdentifier: "ReviewsViewCell"
@@ -35,44 +35,44 @@ class MovieDetailViewController: UIViewController {
             forCellReuseIdentifier: "SimilarViewCell"
         )
         
-        fetchAllReviews()
+        //calling 4 APIs in parallel to load faster
+        fetchAll()
     }
     
+    private func fetchAll(){
+        fetchDetails()
+        fetchCast()
+        fetchReviews()
+        fetchSimilar()
+    }
     
-    func fetchAllReviews() {
-        guard let movieId = movieId else { print("movieId is nil"); return }
-        let endpoint = Constants.baseURL + "/\(movieId)/reviews?api_key=\(Constants.apiKey)"
-        print("Fetching: \(endpoint)")
+        //MARK: - Header Details
+    func fetchDetails() {
         
-            // 1. Create a URL from a string
-        guard let url = URL(string: endpoint) else { return }
+    }
+        //MARK: - Cast
+    func fetchCast() {
         
-            // 2. Create a URLSession
-        let session = URLSession.shared
-        
-            // 3. Give URL session a task to fetch data from the Server (asynchronous)
-        let task = session.dataTask(with: url) { [weak self] data, response, error in
-            guard let safeData = data, error == nil else {
-                print("Error loading Reviews: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            print("Raw JSON: \(String(data: safeData, encoding: .utf8) ?? "nil")")
-                // 4. Parse the JSON data into swift objects
-            if let parsedReviews = try? JSONDecoder().decode(ReviewsResponse.self, from: safeData) {
-                DispatchQueue.main.async {
-                    self?.reviews = parsedReviews.results
-                    print("Reviews count: \(parsedReviews.results.count)")
-                    self?.tableView.reloadData()
-                }
-            }
-            else {
-                print("Decode failed")
+    }
+        //MARK: - Reviews
+    func fetchReviews() {
+        //https://api.themoviedb.org/3/movie/9300/reviews?api_key=9a7a83ab6ed564c44e09ef91526db920
+        guard let movieId else { print("MovieId is nil"); return }
+        let endpoint = "\(Constants.baseURL)/\(movieId)/reviews?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(ReviewsResponse.self, urlString: endpoint) {
+            [weak self] response in
+            guard let self, let review = response?.results else { return }
+            self.reviews = review
+            DispatchQueue.main.async {
+                self.tableView.reloadSections([1], with: .none)
             }
         }
-        
-            // 5. Start the task ← must be OUTSIDE the closure
-        task.resume()
     }
+        //MARK: - Similar Movies
+    func fetchSimilar() {
+        
+    }
+
 
 }
     

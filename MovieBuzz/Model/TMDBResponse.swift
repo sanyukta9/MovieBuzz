@@ -7,6 +7,8 @@
 //codable: convert JSON <-> Swift automatically.
 //must match JSON keys exactly
 
+//MARK: - Movie Listing
+
 /*
  page : 1
  results[20]
@@ -64,10 +66,5 @@ struct Results: Codable {
     var posterURL: String? {
         guard let posterPath = poster_path else { return nil}
         return Constants.posterImageURL + posterPath
-    }
-        //computed property
-        //https://api.themoviedb.org/3/movie/9300/similar?api_key=9a7a83ab6ed564c44e09ef91526db920
-    var similarURL: String {
-        return Constants.baseURL + "/\(id)/similar?api_key=\(Constants.apiKey)"
     }
 }

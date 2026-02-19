@@ -8,7 +8,7 @@
 import UIKit
 
 class ReviewsViewCell: UITableViewCell {
-    var reviews: [ReviewsResults] = []
+    private var reviews: [ReviewsResults] = []
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -42,9 +42,7 @@ extension ReviewsViewCell: UICollectionViewDelegate, UICollectionViewDataSource,
             for: indexPath
         ) as! ReviewsCollectionViewCell
         
-        let review = reviews[indexPath.item]
-        cell.reviewerName.text = review.author
-        cell.reviewContent.text = review.content
+        cell.configure(with: reviews[indexPath.item])
         return cell
     }
     

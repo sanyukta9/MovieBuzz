@@ -4,60 +4,50 @@
 //
 //  Created by Sanyukta Adhate on 12/02/26.
 //
+// Single reusable class for all API calls [Singleton Pattern]
+//[weak self] -> prevents memory leak if cell is reused
+
 import Foundation
+import UIKit
+
+//MARK: - Movie Data
 
 class MovieManager {
-    func fetchMovies(urlString: String, completion: @escaping ([Results]?) -> Void){
-        let urlString = urlString
-        
+    static let shared = MovieManager()
+    private init() {} //single instance only
+    
+    func fetchData<T: Codable> (_ type: T.Type, urlString: String, completion: @escaping (T?) -> Void){
+
         //1. create URL - Convert string to URL object
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            completion(nil)
-            return
+        guard let url = URL(string: urlString) else { print("Invalid URL"); completion(nil); return }
+        //2. URL session which brings data from internet server. DataTask sends async req on BG thread
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data, error == nil else { print("No Data Received"); completion(nil); return }
+        //3. Parse the JSON data into swift objects - decoding
+            let parsedData = try? JSONDecoder().decode(T.self, from: data)
+            completion(parsedData)
         }
-        
-        //2. create a URL session
-        let session = URLSession(configuration: .default)
-        
-        //3. assign a data task to session - ASYNC
-        let task = session.dataTask(with: url) { (data, response, error) in
-            guard let safeData = data, error == nil else { print("No Data Received"); return }
-        //4. Parse the JSON data into swift objects
-            if let parsedMovies = self.parseJSONData(safeData){
-                print("Successfully fetched \(parsedMovies.count) movies from: \(urlString)")
-                completion(parsedMovies)
-            }
-            else{
-                completion(nil)
-            }
-        }
-        //5. Start the task (without this req never starts)
+        //4. Start the task (without this req never starts)
         task.resume()
     }
     
-    //MARK: - 4
-    func parseJSONData(_ movieData: Data) -> [Results]?{
-        do {
-            let decodedData = try JSONDecoder().decode(TMDBResponse.self, from: movieData)
-            
-            print("page: \(decodedData.page)")
-            print("total_pages: \(decodedData.total_pages)")
-            print("total_results: \(decodedData.total_results)")
-            if let first = decodedData.results.first {
-                print("first.id: \(first.id)")
-                print("first.title: \(first.title)")
-                print("first.overview: \(first.overview)")
-                print("first.posterURL: \(first.posterURL!)")
-                print("first.poster_path: \(first.poster_path!)")
-                print("first.releaseDate: \(first.release_date)")
+}
+
+//MARK: - Movie Images
+
+extension UIImageView {
+    func loadImage(from urlString: String?) {
+        //1. create image URL - Convert string to URL object
+        guard let url = URL(string: urlString!) else { image = UIImage(systemName: "image"); return}
+        //2. URL session which brings image from internet server. DataTask sends async req on BG thread
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response , error in
+            guard let data, let image = UIImage(data: data) else { return }
+        //3. Update UI on main thread
+            DispatchQueue.main.async {
+                self?.image = image
             }
-            return decodedData.results
         }
-        catch {
-            print("Failed to parse JSON: \(error)")
-            return nil
-        }
+        //4. Start the task (without this req never starts)
+        task.resume()
     }
-    
 }
