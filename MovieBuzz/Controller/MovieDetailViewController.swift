@@ -37,71 +37,62 @@ class MovieDetailViewController: UIViewController {
             forCellReuseIdentifier: "SimilarViewCell"
         )
         
-        //calling 4 APIs in parallel to load faster
+        //just stores the data silently once done all sections appear at once
         fetchAll()
     }
     
     private func fetchAll(){
-        fetchDetails()
-        fetchReviews()
-        fetchCast()
-        fetchSimilar()
-    }
-    
-        //MARK: - Header Details
-    func fetchDetails() {
-        //https://api.themoviedb.org/3/movie/9300?api_key=9a7a83ab6ed564c44e09ef91526db920
+        let group = DispatchGroup()
         guard let movieId else { print("MovieId is nil"); return }
-        let endpoint = "\(Constants.baseURL)/\(movieId)?api_key=\(Constants.apiKey)"
-        MovieManager.shared.fetchData(DetailsResponse.self, urlString: endpoint) {
+        
+            //MARK: - Header Details
+        
+        group.enter()
+            //https://api.themoviedb.org/3/movie/9300?api_key=9a7a83ab6ed564c44e09ef91526db920
+        let endpoint1 = "\(Constants.baseURL)/\(movieId)?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(DetailsResponse.self, urlString: endpoint1) {
             [weak self] response in
             guard let self, let response else { return }
             self.details = response
-            DispatchQueue.main.async {
-                self.tableView.reloadSections([0], with: .none)
-            }
+            group.leave()
         }
-    }
-        //MARK: - Reviews
-    func fetchReviews() {
-        //https://api.themoviedb.org/3/movie/9300/reviews?api_key=9a7a83ab6ed564c44e09ef91526db920
-        guard let movieId else { print("MovieId is nil"); return }
-        let endpoint = "\(Constants.baseURL)/\(movieId)/reviews?api_key=\(Constants.apiKey)"
-        MovieManager.shared.fetchData(ReviewsResponse.self, urlString: endpoint) {
+            //MARK: - Reviews
+        
+        group.enter()
+            //https://api.themoviedb.org/3/movie/9300/reviews?api_key=9a7a83ab6ed564c44e09ef91526db920
+        let endpoint2 = "\(Constants.baseURL)/\(movieId)/reviews?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(ReviewsResponse.self, urlString: endpoint2) {
             [weak self] response in
             guard let self, let review = response?.results else { return }
             self.reviews = review
-            DispatchQueue.main.async {
-                self.tableView.reloadSections([1], with: .none)
-            }
+            group.leave()
         }
-    }
-        //MARK: - Cast
-    func fetchCast() {
-        //https://api.themoviedb.org/3/movie/9300/credits?api_key=9a7a83ab6ed564c44e09ef91526db920
-        guard let movieId else { print("MovieId is nil"); return }
-        let endpoint = "\(Constants.baseURL)/\(movieId)/credits?api_key=\(Constants.apiKey)"
-        MovieManager.shared.fetchData(CastResponse.self, urlString: endpoint) {
+            //MARK: - Cast
+        
+        group.enter()
+            //https://api.themoviedb.org/3/movie/9300/credits?api_key=9a7a83ab6ed564c44e09ef91526db920
+        let endpoint3 = "\(Constants.baseURL)/\(movieId)/credits?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(CastResponse.self, urlString: endpoint3) {
             [weak self] response in
             guard let self, let cast = response?.cast else { return }
             self.casts = cast
-            DispatchQueue.main.async {
-                self.tableView.reloadSections([2], with: .none)
-            }
+            group.leave()
         }
-    }
-        //MARK: - Similar Movies
-    func fetchSimilar() {
-        //https://api.themoviedb.org/3/movie/9300/similar?api_key=9a7a83ab6ed564c44e09ef91526db920
-        guard let movieId else { print("MovieId is nil"); return }
-        let endpoint = "\(Constants.baseURL)/\(movieId)/similar?api_key=\(Constants.apiKey)"
-        MovieManager.shared.fetchData(SimilarResponse.self, urlString: endpoint) {
+            //MARK: - Similar Movies
+        
+        group.enter()
+            //https://api.themoviedb.org/3/movie/9300/similar?api_key=9a7a83ab6ed564c44e09ef91526db920
+        let endpoint4 = "\(Constants.baseURL)/\(movieId)/similar?api_key=\(Constants.apiKey)"
+        MovieManager.shared.fetchData(SimilarResponse.self, urlString: endpoint4) {
             [weak self] response in
             guard let self, let similar = response?.results else { return }
             self.similar = similar
-            DispatchQueue.main.async {
-                self.tableView.reloadSections([3], with: .none)
-            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            print("All 4 APIs Called")
+            self?.tableView.reloadData() // reload everything at once
         }
     }
 }
