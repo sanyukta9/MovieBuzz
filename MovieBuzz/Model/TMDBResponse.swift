@@ -54,17 +54,30 @@ struct TMDBResponse: Codable {
  }
  */
 
+struct SimilarResponse: Codable {
+    let results: [Results]
+}
+
 struct Results: Codable {
     let id: Int
     let title: String
     let overview: String
     let poster_path: String?
     let release_date: String
-        
-    //computed property
-    //https://image.tmdb.org/t/p/w500/wDWwtvkRRlgTiUr6TyLSMX8FCuZ.jpg
+    
+        //computed property
+        //https://image.tmdb.org/t/p/w500/wDWwtvkRRlgTiUr6TyLSMX8FCuZ.jpg
     var posterURL: String? {
         guard let posterPath = poster_path else { return nil}
         return Constants.posterImageURL + posterPath
     }
+}
+
+struct ReviewsResponse: Codable {
+    let results: [ReviewsResults]
+}
+
+struct ReviewsResults: Codable {
+    let author: String
+    let content: String
 }

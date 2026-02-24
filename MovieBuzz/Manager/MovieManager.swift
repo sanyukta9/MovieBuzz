@@ -7,7 +7,6 @@
 // Single reusable class for all API calls [Singleton Pattern]
 //[weak self] -> prevents memory leak if cell is reused
 
-import Foundation
 import UIKit
 
 //MARK: - Movie Data

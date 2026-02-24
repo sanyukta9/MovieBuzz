@@ -15,11 +15,13 @@ class CastCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var castShortName: UILabel!
     
+    //calls before autolayout constraints set: width is not set yet
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
+    //called after autolayout constraints set: width set to calculate radius of circle
     override func layoutSubviews() {
         super.layoutSubviews()
         castImage.layer.cornerRadius = castImage.frame.width / 2
