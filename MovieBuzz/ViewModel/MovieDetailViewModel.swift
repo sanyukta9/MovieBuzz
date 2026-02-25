@@ -29,9 +29,6 @@ class MovieDetailViewModel {
     var reviewsCount: Int  { reviews.count }
     var castsCount: Int { casts.count }
     var similarCounts: Int { similar.count }
-    func reviewsAtIndex(at index: Int) -> ReviewsResults { reviews[index] }
-    func castsAtIndex(at index: Int) -> CastResults { casts[index] }
-    func similarAtIndex(at index: Int) -> Results { similar[index] }
     
     //MARK: - Business Logic
     func fetchAll(){
