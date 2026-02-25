@@ -25,11 +25,6 @@ class MovieDetailViewModel {
     var isDataUpdated : (() -> ())?
     var isError: ((String) -> (Void))?
     
-    //MARK: - Computed Properties
-    var reviewsCount: Int  { reviews.count }
-    var castsCount: Int { casts.count }
-    var similarCounts: Int { similar.count }
-    
     //MARK: - Business Logic
     func fetchAll(){
         let group = DispatchGroup()
