@@ -25,10 +25,8 @@ class MovieListingViewController: UIViewController {
         viewModel.isMoviesUpdated = { [weak self] in
             self?.tableView.reloadData()
         }
-        viewModel.isError = { [weak self] message in
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self?.present(alert, animated: true)
+        viewModel.isError = { message in
+            print("Error: \(message)")
         }
     }
     
@@ -49,7 +47,7 @@ class MovieListingViewController: UIViewController {
         if let cell = view as? UITableViewCell,
            let indexPath = tableView.indexPath(for: cell) {
             let movie = viewModel.movieAtIndex(at: indexPath.row)
-            detailVC.movieId = movie.id
+            detailVC.viewModel = MovieDetailViewModel(movieId: movie.id)
         }
     }
 }
