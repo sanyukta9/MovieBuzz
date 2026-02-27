@@ -14,12 +14,16 @@ class MovieListingViewModel {
     }
     
     //MARK: - MVVM Bindings. VC tells.
+    //installs the phone socket
     var isMoviesUpdated : (() -> ())?
     var isError: ((String) -> (Void))?
     
     //MARK: - Computed Properties
     var moviesCount: Int { movies.count }
     func movieAtIndex(at index: Int) -> Results { movies[index] }
+    func cellViewModel(at index: Int) -> MovieListViewModelCell {
+        return MovieListViewModelCell(movie: movies[index])
+    }
     
     //MARK: - Business logic
     func fetchAllMovies() {
@@ -33,7 +37,7 @@ class MovieListingViewModel {
             }
             DispatchQueue.main.async {
                 //triggers didSet
-                self.movies = movies
+                self.movies = movies //dials. No manual call: self.isMoviesUpdated?()
             }
         }
     }

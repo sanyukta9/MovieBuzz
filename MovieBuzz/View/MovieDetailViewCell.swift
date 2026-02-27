@@ -22,13 +22,13 @@ class MovieDetailViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func configure(with details: DetailsResponse) {
-        currentPoster.loadImage(from: details.posterURL)
-        rating.text = String(format: "%.1f/10", details.vote_average)
-        votes.text = "\(details.vote_count) votes"
-        currentMovie.text = details.original_title
-        genre.text = details.genreNames
-        synopsis.text = details.overview
+    func configure(with viewModel: MovieDetailViewModelCell) {
+        currentPoster.loadImage(from: viewModel.posterURL)
+        rating.text = viewModel.rating
+        votes.text = viewModel.votes
+        currentMovie.text = viewModel.currentMovie
+        genre.text = viewModel.genre
+        synopsis.text = viewModel.synopsis
     }
     
 }

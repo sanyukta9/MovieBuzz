@@ -22,6 +22,7 @@ class MovieListingViewController: UIViewController {
     }
     
     private func setupBindings() {
+        //install the phone
         viewModel.isMoviesUpdated = { [weak self] in
             self?.tableView.reloadData()
         }
@@ -64,7 +65,7 @@ extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource
         ) as! MovieListViewCell
         
         //get movie for ith row
-        let movie = viewModel.movieAtIndex(at: indexPath.row)
+        let movie = viewModel.cellViewModel(at: indexPath.row)
         //pass movie data to cell
         cell.configure(with: movie)
         return cell

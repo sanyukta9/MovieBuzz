@@ -21,6 +21,12 @@ class MovieDetailViewModel {
     private(set) var casts: [CastResults] = []
     private(set) var similar: [Results] = []
     
+    //MARK: - Computed Properties
+    func detailCellViewModel() -> MovieDetailViewModelCell? {
+        guard let details else { return nil }
+        return MovieDetailViewModelCell(details: details)
+    }
+    
     //MARK: - MVVM Bindings. VC tells
     var isDataUpdated : (() -> ())?
     var isError: ((String) -> (Void))?

@@ -22,13 +22,13 @@ class MovieListViewCell: UITableViewCell {
     }
     
         // Configure cell with movie data
-    func configure(with movie: Results) {
-        movieName.text = movie.title
-        releaseDate.text = formatDate(movie.release_date)
-        overview.text = movie.overview
+    func configure(with viewModel: MovieListViewModelCell) {
+        movieName.text = viewModel.title
+        releaseDate.text = viewModel.formattedReleaseDate
+        overview.text = viewModel.overview
         // Load poster image
         guard let posterImageView else { showPlaceholder(); return }
-        posterImageView.loadImage(from: movie.posterURL)
+        posterImageView.loadImage(from: viewModel.posterURL)
     }
     
         //MARK: - Show placeholder if image fails
@@ -45,21 +45,6 @@ class MovieListViewCell: UITableViewCell {
         releaseDate.text = nil
         overview.text = nil
         posterImageView.image = nil
-    }
-    
-        //MARK: - Data format for release data: 2023-03-15 but expected to show 15 March, 2023
-    func formatDate(_ date: String) -> String {
-        //read
-        let returnedDate = DateFormatter()
-        returnedDate.dateFormat = "yyyy-MM-dd"
-        
-        guard let safeDate = returnedDate.date(from: date) else { return date }
-        
-        //write
-        let expectedDate = DateFormatter()
-        expectedDate.dateFormat = "dd MMMM, yyyy"
-        
-        return expectedDate.string(from: safeDate)
     }
     
 }

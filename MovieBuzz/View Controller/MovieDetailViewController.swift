@@ -70,7 +70,11 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! MovieDetailViewCell
                 
-                if let details = viewModel.details { cell.configure(with: details) }
+                    //get movie for ith row
+                if let vmDetails = viewModel.detailCellViewModel() {
+                        //pass movie data to cell
+                    cell.configure(with: vmDetails)
+                }
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(
