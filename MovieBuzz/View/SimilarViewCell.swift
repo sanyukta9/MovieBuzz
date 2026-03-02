@@ -8,7 +8,7 @@
 import UIKit
 
 class SimilarViewCell: UITableViewCell {
-    private var similar: [Results] = []
+    private var viewModel: SimilarViewModelCell?
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -24,8 +24,8 @@ class SimilarViewCell: UITableViewCell {
         
     }
     
-    func configure(with similar: [Results]) {
-        self.similar = similar
+    func configure(with viewModel: SimilarViewModelCell) {
+        self.viewModel = viewModel
         collectionView.reloadData()
     }
     
@@ -33,7 +33,7 @@ class SimilarViewCell: UITableViewCell {
 
 extension SimilarViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return similar.count
+        return viewModel?.similarCount ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -42,7 +42,9 @@ extension SimilarViewCell: UICollectionViewDelegate, UICollectionViewDataSource 
             for: indexPath
         ) as! SimilarCollectionViewCell
         
-        cell.configure(with: similar[indexPath.row])
+        if let vmCell = viewModel?.similarCellViewModel(at: indexPath.item) {
+            cell.configure(with: vmCell)
+        }
         return cell
         
     }

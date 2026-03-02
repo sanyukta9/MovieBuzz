@@ -22,9 +22,9 @@ class ReviewsCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .clear
     }
     
-    func configure(with review: ReviewsResults) {
-        reviewerName.text = review.author
-        reviewContent.text = review.content
+    func configure(with viewModel: ReviewsCollectionViewModelCell) {
+        reviewerName.text = viewModel.reviewerName
+        reviewContent.text = viewModel.reviewContent
     }
 
 }

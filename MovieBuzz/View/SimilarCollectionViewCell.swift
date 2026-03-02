@@ -19,9 +19,9 @@ class SimilarCollectionViewCell: UICollectionViewCell {
         similarPosterImage.layer.cornerRadius = 12
     }
     
-    func configure(with similar: Results) {
-        similarPosterImage.loadImage(from: similar.posterURL)
-        similarMovieName.text = similar.title
+    func configure(with viewModel: SimilarCollectionViewModelCell) {
+        similarPosterImage.loadImage(from: viewModel.similarPosterImage)
+        similarMovieName.text = viewModel.similarMovieName
     }
 
 }

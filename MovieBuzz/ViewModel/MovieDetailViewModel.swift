@@ -4,6 +4,7 @@
 //
 //  Created by Sanyukta Adhate on 25/02/26.
 //
+
 import Foundation
 
 class MovieDetailViewModel {
@@ -22,9 +23,22 @@ class MovieDetailViewModel {
     private(set) var similar: [Results] = []
     
     //MARK: - Computed Properties
+    //0
     func detailCellViewModel() -> MovieDetailViewModelCell? {
         guard let details else { return nil }
         return MovieDetailViewModelCell(details: details)
+    }
+    //1
+    func reviewCellViewModel() -> ReviewsViewModelCell {
+        return ReviewsViewModelCell(review: reviews)
+    }
+    //2
+    func castCellViewModel() -> CastViewModelCell {
+        return CastViewModelCell(casts: casts)
+    }
+    //3
+    func similarCellViewModel() -> SimilarViewModelCell {
+        return SimilarViewModelCell(similar: similar)
     }
     
     //MARK: - MVVM Bindings. VC tells

@@ -8,7 +8,7 @@
 import UIKit
 
 class ReviewsViewCell: UITableViewCell {
-    private var reviews: [ReviewsResults] = []
+    private var viewModel: ReviewsViewModelCell?
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -24,8 +24,8 @@ class ReviewsViewCell: UITableViewCell {
         )
     }
     
-    func configure(with reviews: [ReviewsResults]) {
-        self.reviews = reviews
+    func configure(with viewModel: ReviewsViewModelCell) {
+        self.viewModel = viewModel
         collectionView.reloadData()
     }
     
@@ -33,7 +33,7 @@ class ReviewsViewCell: UITableViewCell {
 
 extension ReviewsViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reviews.count
+        return viewModel?.reviewCount ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -42,7 +42,9 @@ extension ReviewsViewCell: UICollectionViewDelegate, UICollectionViewDataSource,
             for: indexPath
         ) as! ReviewsCollectionViewCell
         
-        cell.configure(with: reviews[indexPath.item])
+        if let vmCell = viewModel?.reviewCellViewModel(at: indexPath.item) {
+            cell.configure(with: vmCell)
+        }
         return cell
     }
     

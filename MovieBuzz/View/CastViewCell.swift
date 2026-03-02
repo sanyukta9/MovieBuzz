@@ -8,7 +8,7 @@
 import UIKit
 
 class CastViewCell: UITableViewCell {
-    private var casts: [CastResults] = []
+    private var viewModel: CastViewModelCell?
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -23,15 +23,9 @@ class CastViewCell: UITableViewCell {
             forCellWithReuseIdentifier: "CastCollectionViewCell"
         )
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
-    func configure(with casts: [CastResults]) {
-        self.casts = casts
+    func configure(with viewModel: CastViewModelCell) {
+        self.viewModel = viewModel
         collectionView.reloadData()
     }
     
@@ -39,7 +33,7 @@ class CastViewCell: UITableViewCell {
 
 extension CastViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return casts.count
+        return viewModel?.castCount ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -48,7 +42,9 @@ extension CastViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
             for: indexPath
         ) as! CastCollectionViewCell
         
-        cell.configure(with: casts[indexPath.item])
+        if let vmCell = viewModel?.castCellViewModel(at: indexPath.item){
+            cell.configure(with: vmCell)
+        }
         return cell
     }
     

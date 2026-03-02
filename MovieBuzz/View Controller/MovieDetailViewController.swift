@@ -82,7 +82,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! ReviewsViewCell
                 
-                cell.configure(with: viewModel.reviews)
+                cell.configure(with: viewModel.reviewCellViewModel()) //instead of array passing VM
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(
@@ -90,7 +90,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! CastViewCell
                 
-                cell.configure(with: viewModel.casts)
+                cell.configure(with: viewModel.castCellViewModel()) //instead of array passing VM
                 return cell
             case 3:
                 let cell = tableView.dequeueReusableCell(
@@ -98,7 +98,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
                     for: indexPath
                 ) as! SimilarViewCell
                 
-                cell.configure(with: viewModel.similar)
+                cell.configure(with: viewModel.similarCellViewModel()) //instead of array passing VM
                 return cell
             default:
                 return UITableViewCell()

@@ -28,10 +28,10 @@ class CastCollectionViewCell: UICollectionViewCell {
         castImage.clipsToBounds = true
     }
     
-    func configure(with casts: CastResults) {
-        castImage.loadImage(from: casts.profilePathURL)
-        castFullName.text = casts.name
-        castShortName.text = casts.character
+    func configure(with viewModel: CastCollectionViewModelCell) {
+        castImage.loadImage(from: viewModel.castImage)
+        castFullName.text = viewModel.castFullName
+        castShortName.text = viewModel.castShortName
     }
 
 }

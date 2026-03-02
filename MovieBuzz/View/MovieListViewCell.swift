@@ -27,7 +27,6 @@ class MovieListViewCell: UITableViewCell {
         releaseDate.text = viewModel.formattedReleaseDate
         overview.text = viewModel.overview
         // Load poster image
-        guard let posterImageView else { showPlaceholder(); return }
         posterImageView.loadImage(from: viewModel.posterURL)
     }
     
