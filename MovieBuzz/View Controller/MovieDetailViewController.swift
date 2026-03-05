@@ -15,6 +15,7 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //reloads the table when the binding fires.
         setupTableView()
         setupBindings()
         viewModel.fetchAll()
