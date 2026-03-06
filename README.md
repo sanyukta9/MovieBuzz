@@ -9,7 +9,7 @@ Screenshots:
   <tr>
     <td align="center">Movie List Page</td>
     <td align="center">Movie Detail Page: Movie Details, Cast, Reviews</td>
-    <td align="center"><b>Movie Detail Page: Similar Section </b></td>
+    <td align="center">Movie Detail Page: Similar Section </td>
   </tr>
   <tr>
     <td><img width="250" alt="Screenshot 2026-03-06 at 11 21 53 AM" src="https://github.com/user-attachments/assets/8af022c9-99a1-4ab2-813d-6108eae948c1" /></td>
