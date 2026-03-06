@@ -7,8 +7,8 @@ Screenshots:
 
 <table>
   <tr>
-    <td align="center"><b>Movie List Page</b></td>
-    <td align="center"><b>Movie Detail Page: Movie Detais Section, Cast Section, Reviews Section </b></td>
+    <td align="center">Movie List Page</td>
+    <td align="center">Movie Detail Page: Movie Details, Cast, Reviews</td>
     <td align="center"><b>Movie Detail Page: Similar Section </b></td>
   </tr>
   <tr>
