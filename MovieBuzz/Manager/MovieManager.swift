@@ -40,7 +40,7 @@ extension UIImageView {
         guard let urlString, let url = URL(string: urlString) else { image = UIImage(systemName: "photo"); return }
         //2. URL session which brings image from internet server. DataTask sends async req on BG thread
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response , error in
-            guard let data, let image = UIImage(data: data) else { return }
+            guard let data, let image = UIImage(data: data) else { print("No Image Fetched"); return }
         //3. Update UI on main thread
             DispatchQueue.main.async {
                 self?.image = image

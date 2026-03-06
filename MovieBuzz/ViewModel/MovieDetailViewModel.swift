@@ -56,7 +56,7 @@ class MovieDetailViewModel {
         let endpoint1 = "\(Constants.baseURL)/\(movieId)?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(DetailsResponse.self, urlString: endpoint1) {
             [weak self] response in
-            guard let self, let response else { return }
+            guard let self, let response else { print(self!.isError.debugDescription); return }
             self.details = response
             group.leave()
         }
@@ -67,7 +67,7 @@ class MovieDetailViewModel {
         let endpoint2 = "\(Constants.baseURL)/\(movieId)/reviews?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(ReviewsResponse.self, urlString: endpoint2) {
             [weak self] response in
-            guard let self, let review = response?.results else { return }
+            guard let self, let review = response?.results else { print(self!.isError.debugDescription); return }
             self.reviews = review
             group.leave()
         }
@@ -78,7 +78,7 @@ class MovieDetailViewModel {
         let endpoint3 = "\(Constants.baseURL)/\(movieId)/credits?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(CastResponse.self, urlString: endpoint3) {
             [weak self] response in
-            guard let self, let cast = response?.cast else { return }
+            guard let self, let cast = response?.cast else { print(self!.isError.debugDescription); return }
             self.casts = cast
             group.leave()
         }
@@ -89,7 +89,7 @@ class MovieDetailViewModel {
         let endpoint4 = "\(Constants.baseURL)/\(movieId)/similar?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(SimilarResponse.self, urlString: endpoint4) {
             [weak self] response in
-            guard let self, let similar = response?.results else { return }
+            guard let self, let similar = response?.results else { print(self!.isError.debugDescription); return }
             self.similar = similar
             group.leave()
         }

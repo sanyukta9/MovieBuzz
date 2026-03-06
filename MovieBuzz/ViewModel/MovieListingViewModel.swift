@@ -32,10 +32,7 @@ class MovieListingViewModel {
         let endpoint = Constants.baseURL + "/now_playing?api_key=" + Constants.apiKey
         MovieManager.shared.fetchData(TMDBResponse.self, urlString: endpoint) { [weak self] response in
             guard let self else { return }
-            guard let movies = response?.results else {
-                self.isError?("Failed to load movies")
-                return
-            }
+            guard let movies = response?.results else { self.isError?("Failed to load movies"); return }
             DispatchQueue.main.async {
                 //triggers didSet
                 self.movies = movies //dials. No manual call: self.isMoviesUpdated?()

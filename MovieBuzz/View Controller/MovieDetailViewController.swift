@@ -16,6 +16,7 @@ class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //reloads the table when the binding fires.
+        tableView.rowHeight = 250
         setupTableView()
         setupBindings()
         viewModel.fetchAll()
@@ -60,7 +61,18 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 //each section has 1 row
+        switch section {
+            case 0:
+                return viewModel.details != nil  ? 1 : 0
+            case 1:
+                return viewModel.reviews.isEmpty ? 0 : 1
+            case 2:
+                return viewModel.casts.isEmpty   ? 0 : 1
+            case 3:
+                return viewModel.similar.isEmpty ? 0 : 1
+            default:
+                return 0
+        } //each section has 1 row
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,19 +119,19 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
     
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-            case 0:
-                return 250  // Header
-            case 1:
-                return 250 //Reviews
-            case 2:
-                return 250 //Cast
-            case 3:
-                return 300 //Similar movies
-            default:
-                return 0
-        }
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        switch indexPath.section {
+//            case 0:
+//                return 250  // Header
+//            case 1:
+//                return 250 //Reviews
+//            case 2:
+//                return 250 //Cast
+//            case 3:
+//                return 300 //Similar movies
+//            default:
+//                return 0
+//        }
+//    }
 }
 
