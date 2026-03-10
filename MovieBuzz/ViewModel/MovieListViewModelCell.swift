@@ -37,6 +37,7 @@ class MovieListViewModelCell {
         let returnedDate = DateFormatter()
         returnedDate.dateFormat = "yyyy-MM-dd"
         
+        //convert to date
         guard let safeDate = returnedDate.date(from: date) else { return date }
         
             //write

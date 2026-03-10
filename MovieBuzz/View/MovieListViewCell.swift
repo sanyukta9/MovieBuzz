@@ -30,13 +30,6 @@ class MovieListViewCell: UITableViewCell {
         posterImageView.loadImage(from: viewModel.posterURL)
     }
     
-        //MARK: - Show placeholder if image fails
-    func showPlaceholder() {
-        posterImageView.image = UIImage(systemName: "film.fill")
-        posterImageView.tintColor = .systemGray
-        posterImageView.contentMode = .center
-    }
-    
         //MARK: - Clean up when cell is reused
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -7,17 +7,25 @@
 
 import Foundation
 
+//protocol
+protocol MovieListingDelegate: AnyObject {
+    func didUpdateMovies()
+    func didFailWithError(error: String)
+}
+
 class MovieListingViewModel {
+    weak var delegate: MovieListingDelegate?
     
-    //MARK: - Read only for other classes. Only this VM modify. Property Observer. Notify to VC once updated.
+    //MARK: - Observer. Read only for other classes. Only this VM modify. Property Observer. Notify to VC once updated.
     private(set) var movies: [Results] = [] {
-        didSet { isMoviesUpdated?() }
+        //didSet { isMoviesUpdated?() }
+        didSet { delegate?.didUpdateMovies() }
     }
     
     //MARK: - MVVM Bindings. VC tells.
     //installs the phone socket
-    var isMoviesUpdated : (() -> ())?
-    var isError: ((String) -> (Void))?
+//    var isMoviesUpdated : (() -> ())?
+//    var isError: ((String) -> (Void))?
     
     //MARK: - Computed Properties
     var moviesCount: Int { movies.count }
@@ -32,10 +40,10 @@ class MovieListingViewModel {
         let endpoint = Constants.baseURL + "/now_playing?api_key=" + Constants.apiKey
         MovieManager.shared.fetchData(TMDBResponse.self, urlString: endpoint) { [weak self] response in
             guard let self else { return }
-            guard let movies = response?.results else { self.isError?("Failed to load movies"); return }
+            guard let movies = response?.results else { self.delegate?.didFailWithError(error: "Failed to load movies"); return }
             DispatchQueue.main.async {
                 //triggers didSet
-                self.movies = movies //dials. No manual call: self.isMoviesUpdated?()
+                self.movies = movies //dials. No manual call: self.didUpdateMovies?()
             }
         }
     }

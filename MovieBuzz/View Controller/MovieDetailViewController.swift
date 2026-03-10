@@ -18,7 +18,8 @@ class MovieDetailViewController: UIViewController {
         //reloads the table when the binding fires.
         tableView.rowHeight = 250
         setupTableView()
-        setupBindings()
+        //setupBindings()
+        viewModel.delegate = self
         viewModel.fetchAll()
     }
     
@@ -42,14 +43,14 @@ class MovieDetailViewController: UIViewController {
         )
     }
     
-    private func setupBindings() {
-        viewModel.isDataUpdated = { [weak self] in
-            self?.tableView.reloadData()
-        }
-        viewModel.isError = { message in
-            print("Error: \(message)")
-        }
-    }
+//    private func setupBindings() {
+//        viewModel.isDataUpdated = { [weak self] in
+//            self?.tableView.reloadData()
+//        }
+//        viewModel.isError = { message in
+//            print("Error: \(message)")
+//        }
+//    }
 }
 
     //MARK: - Deleagte, Data Source, Row Height
@@ -61,6 +62,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //If there is data then 1 row per section else 0 row
         switch section {
             case 0:
                 return viewModel.details != nil  ? 1 : 0
@@ -135,3 +137,14 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
 //    }
 }
 
+extension MovieDetailViewController: MovieDetailDelegate {
+    func didUpdateData() {
+        tableView.reloadData()
+    }
+    
+    func didFailWithError(error: String) {
+        print("Error: \(error)")
+    }
+    
+    
+}

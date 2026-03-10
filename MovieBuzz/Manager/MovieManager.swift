@@ -32,7 +32,7 @@ class MovieManager {
     
 }
 
-//MARK: - Movie Images
+//MARK: - Movie Images: Allows any img in the app to download and display
 
 extension UIImageView {
     func loadImage(from urlString: String?) {

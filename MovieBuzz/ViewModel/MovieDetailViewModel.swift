@@ -7,7 +7,14 @@
 
 import Foundation
 
+//protocol
+protocol MovieDetailDelegate: AnyObject {
+    func didUpdateData()
+    func didFailWithError(error: String)
+}
+
 class MovieDetailViewModel {
+    weak var delegate: MovieDetailDelegate?
     
     //MARK: - Input
     let movieId: Int
@@ -42,8 +49,8 @@ class MovieDetailViewModel {
     }
     
     //MARK: - MVVM Bindings. VC tells
-    var isDataUpdated : (() -> ())?
-    var isError: ((String) -> (Void))?
+//    var isDataUpdated : (() -> ())?
+//    var isError: ((String) -> (Void))?
     
     //MARK: - Business Logic
     func fetchAll(){
@@ -56,8 +63,12 @@ class MovieDetailViewModel {
         let endpoint1 = "\(Constants.baseURL)/\(movieId)?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(DetailsResponse.self, urlString: endpoint1) {
             [weak self] response in
-            guard let self, let response else { print(self!.isError.debugDescription); return }
-            self.details = response
+            guard let self else { return }
+            if let response {
+                self.details = response
+            } else {
+                self.delegate?.didFailWithError(error: "Failed to load Movie Details")
+            }
             group.leave()
         }
             //MARK: - Reviews
@@ -67,8 +78,12 @@ class MovieDetailViewModel {
         let endpoint2 = "\(Constants.baseURL)/\(movieId)/reviews?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(ReviewsResponse.self, urlString: endpoint2) {
             [weak self] response in
-            guard let self, let review = response?.results else { print(self!.isError.debugDescription); return }
-            self.reviews = review
+            guard let self else { return }
+            if let review = response?.results {
+                self.reviews = review
+            } else {
+                self.delegate?.didFailWithError(error: "Failed to load Reviews")
+            }
             group.leave()
         }
             //MARK: - Cast
@@ -78,8 +93,12 @@ class MovieDetailViewModel {
         let endpoint3 = "\(Constants.baseURL)/\(movieId)/credits?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(CastResponse.self, urlString: endpoint3) {
             [weak self] response in
-            guard let self, let cast = response?.cast else { print(self!.isError.debugDescription); return }
-            self.casts = cast
+            guard let self else { return }
+            if let cast = response?.cast {
+                self.casts = cast
+            } else {
+                self.delegate?.didFailWithError(error: "Failed to load Casts")
+            }
             group.leave()
         }
             //MARK: - Similar Movies
@@ -89,14 +108,18 @@ class MovieDetailViewModel {
         let endpoint4 = "\(Constants.baseURL)/\(movieId)/similar?api_key=\(Constants.apiKey)"
         MovieManager.shared.fetchData(SimilarResponse.self, urlString: endpoint4) {
             [weak self] response in
-            guard let self, let similar = response?.results else { print(self!.isError.debugDescription); return }
-            self.similar = similar
+            guard let self else { return }
+            if let similar = response?.results {
+                self.similar = similar
+            } else {
+                self.delegate?.didFailWithError(error: "Failed to load Similar Movies")
+            }
             group.leave()
         }
         
         group.notify(queue: .main) { [weak self] in
             print("All 4 APIs Called")
-            self?.isDataUpdated?() // reload everything at once
+            self?.delegate?.didUpdateData() // reload everything at once
         }
     }
 }
