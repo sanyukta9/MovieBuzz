@@ -10,13 +10,15 @@ class MovieListingViewController: UIViewController {
     private let viewModel = MovieListingViewModel()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            // Do any additional setup after loading the view.
-            //connect table view to controller
+        // Do any additional setup after loading the view.
+        //connect to controller
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
         //setupBindings()
         viewModel.delegate = self
         viewModel.fetchAllMovies()
@@ -32,30 +34,38 @@ class MovieListingViewController: UIViewController {
 //        }
 //    }
     
-        //runs before navigation to next screen and lets you pass the data. 
+        //runs before navigation to next screen and lets you pass the data.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // sender is the Book UIButton which has no indexPath, no row number. To find the row, we need to find the UITableViewCell that contains this button.
-        guard segue.identifier == "MovieDetailsSegue",
-              let detailVC = segue.destination as? MovieDetailViewController,
-              let button = sender as? UIButton //is sender UIButton?
-        else { return }
+            // sender is the Book UIButton which has no indexPath, no row number. To find the row, we need to find the UITableViewCell that contains this button.
+        if segue.identifier == "MovieDetailsSegue" {
+            guard let detailVC = segue.destination as? MovieDetailViewController,
+                  let button = sender as? UIButton //is sender UIButton?
+            else { return }
+            
+            
+                //UIButton -> UIView(contentView)(.superview) ->   UITableViewCell
+            var view = button.superview //contentView
+            while view != nil && !(view is UITableViewCell) { view = view?.superview }
+                //next iteration, view = contentView.superview = UITableViewCell
+            
+                //actual cell that was tapped: indexPath(row: 2, section: 0).
+            if let cell = view as? UITableViewCell,
+               let indexPath = tableView.indexPath(for: cell) {
+                let movie = viewModel.movieAtIndex(at: indexPath.row)
+                detailVC.viewModel = MovieDetailViewModel(movieId: movie.id)
+            }
+        }
         
-        
-            //UIButton -> UIView(contentView)(.superview) ->   UITableViewCell
-        var view = button.superview //contentView
-        while view != nil && !(view is UITableViewCell) { view = view?.superview }
-            //next iteration, view = contentView.superview = UITableViewCell
-        
-            //actual cell that was tapped: indexPath(row: 2, section: 0).
-        if let cell = view as? UITableViewCell,
-           let indexPath = tableView.indexPath(for: cell) {
-            let movie = viewModel.movieAtIndex(at: indexPath.row)
-            detailVC.viewModel = MovieDetailViewModel(movieId: movie.id)
+            //passing movies to the searchVC
+        if segue.identifier == "SearchSegue" {
+            guard let searchVC = segue.destination as? SearchViewController else { return }
+            print("prepare - movies count: \(viewModel.movies.count)")
+            searchVC.configure(with: viewModel.movies)
         }
     }
 }
 
-extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource {
+extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.moviesCount
     }
@@ -75,6 +85,13 @@ extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
+    }
+    
+    //through the segue directly land on searchPage instead of listingPage
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        print("searchBarShouldBeginEditing fired")
+        performSegue(withIdentifier: "SearchSegue", sender: nil)
+        return false
     }
     
 }
