@@ -8,6 +8,7 @@ import UIKit
 
 class MovieListingViewController: UIViewController {
     private let viewModel = MovieListingViewModel()
+    private let searchViewModel = SearchViewModel()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -59,8 +60,9 @@ class MovieListingViewController: UIViewController {
             //passing movies to the searchVC
         if segue.identifier == "SearchSegue" {
             guard let searchVC = segue.destination as? SearchViewController else { return }
-            print("prepare - movies count: \(viewModel.movies.count)")
-            searchVC.configure(with: viewModel.movies)
+            print("prepare fired — movies count: \(viewModel.movies.count)")
+            searchViewModel.configure(with: viewModel.movies)
+            searchVC.viewModel = searchViewModel
         }
     }
 }
@@ -91,7 +93,7 @@ extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         print("searchBarShouldBeginEditing fired")
         performSegue(withIdentifier: "SearchSegue", sender: nil)
-        return false
+        return false //prevent keyboard opening on listingPage
     }
     
 }

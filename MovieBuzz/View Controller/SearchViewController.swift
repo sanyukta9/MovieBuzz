@@ -9,7 +9,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
-    private let viewModel = SearchViewModel()
+    var viewModel = SearchViewModel()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -23,14 +23,23 @@ class SearchViewController: UIViewController {
         viewModel.delegate = self
         searchBar.delegate = self
         recentLabel.isHidden = true // hidden by default
-        navigationItem.hidesBackButton = true // hide back by default
-        searchBar.setShowsCancelButton(true, animated: false) //Cancel button
+        navigationItem.hidesBackButton = true // hide default back
     }
     
     // keyboard opens after screen appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchBar.becomeFirstResponder()
+        
+        didSearchMovies()
+        
+        if !viewModel.lastSearch.isEmpty {
+            searchBar.text = viewModel.lastSearch
+            searchBar.setShowsCancelButton(true, animated: false)  // X button
+            searchBar.becomeFirstResponder()
+        } else {
+            searchBar.becomeFirstResponder()
+        }
+
     }
     
     //pass movies to SearchVC
@@ -98,11 +107,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UISe
         navigationController?.popViewController(animated: true)
     }
     
+        // show X when searchBar active
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+
+    
 }
 
 extension SearchViewController: SearchDelegate {
     func didSearchMovies() {
-        recentLabel.isHidden = viewModel.recentMovies.isEmpty || viewModel.isSearching
+        recentLabel.isHidden = viewModel.shouldShowRecentLabel
         tableView.reloadData()
     }
     

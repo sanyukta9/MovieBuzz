@@ -30,14 +30,20 @@ class SearchViewModel {
     
         // MARK: - State
     private(set) var isSearching: Bool = false
+    private(set) var lastSearch: String = "" 
     
         // MARK: - What table reads from
     var displayMovies: [Results] {
         return isSearching ? searchMovies : recentMovies
     }
     
+    var shouldShowRecentLabel: Bool {
+        return isSearching || recentMovies.isEmpty
+    }
+    
     //MARK: - now_playing api for local filter. Injecting config method.
     func configure(with movies: [Results]) {
+        guard searchAllMovies.isEmpty else { return }
         self.searchAllMovies = movies
         print("SearchViewModel loaded \(movies.count) movies")
     }
@@ -56,23 +62,39 @@ class SearchViewModel {
     
         //MARK: - Business logic
     func searchMovies(searchedMovie: String) {
-        let trimSearched = searchedMovie.trimmingCharacters(in: .whitespaces)
+        let trimSearched = searchedMovie.trimmingCharacters(in: .whitespaces).lowercased()
+        
+        lastSearch = trimSearched
+        
         guard !trimSearched.isEmpty else {isSearching = false; searchMovies = []; return}
         isSearching = true
-        searchMovies = searchAllMovies.filter {
-            $0.title.lowercased().contains(trimSearched.lowercased())
+        
+            //break user search into words
+        let searchWords = trimSearched.components(separatedBy: " ").filter{!$0.isEmpty}
+        
+        searchMovies = searchAllMovies.filter { movie in
+                //break movie title into words , remove empty strings
+            let titleWords = movie.title.lowercased().components(separatedBy: " ").filter{!$0.isEmpty}
+            
+                //every search word must match start of any title word
+            return searchWords.allSatisfy { searchWord in
+                titleWords.contains { titleWord in
+                    titleWord.hasPrefix(searchWord)
+                }
+            }
         }
     }
     
     func saveToRecents(_ movie: Results) {
         var recents = recentMovies
-        recents.removeAll { $0.id == movie.id }
-        recents.insert(movie, at: 0)
-        recentMovies = Array(recents.prefix(5))
+        recents.removeAll { $0.id == movie.id } // no duplicates
+        recents.insert(movie, at: 0)            // most recent first
+        recentMovies = Array(recents.prefix(5)) // keeping last 5
     }
     
     func clearSearch() {
         isSearching = false
         searchMovies = []
+        lastSearch = ""
     }
 }
