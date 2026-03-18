@@ -8,7 +8,7 @@ import UIKit
 
 class MovieListingViewController: UIViewController {
     private let viewModel = MovieListingViewModel()
-    private let searchViewModel = SearchViewModel()
+    private let searchViewModel = SearchViewModel() //once created
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -62,7 +62,7 @@ class MovieListingViewController: UIViewController {
             guard let searchVC = segue.destination as? SearchViewController else { return }
             print("prepare fired — movies count: \(viewModel.movies.count)")
             searchViewModel.configure(with: viewModel.movies)
-            searchVC.viewModel = searchViewModel
+            searchVC.viewModel = searchViewModel //same obj passed every visit
         }
     }
 }

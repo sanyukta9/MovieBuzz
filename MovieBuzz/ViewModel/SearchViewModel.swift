@@ -41,9 +41,9 @@ class SearchViewModel {
         return isSearching || recentMovies.isEmpty
     }
     
-    //MARK: - now_playing api for local filter. Injecting config method.
+    //MARK: - now_playing api for local filter.
     func configure(with movies: [Results]) {
-        guard searchAllMovies.isEmpty else { return }
+        guard searchAllMovies.isEmpty else { return } //after first visit skip
         self.searchAllMovies = movies
         print("SearchViewModel loaded \(movies.count) movies")
     }
