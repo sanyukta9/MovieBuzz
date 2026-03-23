@@ -17,6 +17,7 @@ class SearchViewModel {
     weak var delegate: SearchDelegate?
     
     var searchAllMovies: [Results] = []
+    let trie = Trie()
     
         //MARK: - Observer. Read only for other classes. Only this VM modify. Property Observer. Notify to VC once updated.
     private(set) var searchMovies: [Results] = [] {
@@ -46,6 +47,21 @@ class SearchViewModel {
         guard searchAllMovies.isEmpty else { return } //after first visit skip
         self.searchAllMovies = movies
         print("SearchViewModel loaded \(movies.count) movies")
+        buildTrie()
+    }
+    
+    //MARK: - Build trie tree for searchAllMovies
+    private func buildTrie() {
+        for (index, movie) in searchAllMovies.enumerated() {
+            //split title to words
+            let words = movie.title.lowercased().components(separatedBy: " ").filter{!$0.isEmpty}
+            print(words)
+            //inserting each word to trie
+            for word in words {
+                trie.insert(index: index, word: word)
+            }
+        }
+        print("Trie built")
     }
     
         //MARK: - Computed Properties
@@ -63,6 +79,7 @@ class SearchViewModel {
         //MARK: - Business logic
     func searchMovies(searchedMovie: String) {
         let trimSearched = searchedMovie.trimmingCharacters(in: .whitespaces).lowercased()
+        print("trimSearched", trimSearched)
         
         lastSearch = trimSearched
         
@@ -71,18 +88,40 @@ class SearchViewModel {
         
             //break user search into words
         let searchWords = trimSearched.components(separatedBy: " ").filter{!$0.isEmpty}
+        print("searchWords", searchWords)
         
-        searchMovies = searchAllMovies.filter { movie in
-                //break movie title into words , remove empty strings
-            let titleWords = movie.title.lowercased().components(separatedBy: " ").filter{!$0.isEmpty}
-            
-                //every search word must match start of any title word
-            return searchWords.allSatisfy { searchWord in
-                titleWords.contains { titleWord in
-                    titleWord.hasPrefix(searchWord)
-                }
+        //MARK: - hasPrefix, allSatisfy
+//        searchMovies = searchAllMovies.filter { movie in
+//                //break movie title into words , remove empty strings
+//            let titleWords = movie.title.lowercased().components(separatedBy: " ").filter{!$0.isEmpty}
+//            
+//                //every search word must match start of any title word
+//            return searchWords.allSatisfy { searchWord in
+//                titleWords.contains { titleWord in
+//                    titleWord.hasPrefix(searchWord)
+//                }
+//            }
+//        }
+        var matchIndices: Set<Int>? = nil
+        for word in searchWords {
+            let wordMatches = trie.search(prefix: word)
+            print("wordMatches", wordMatches)
+            if matchIndices == nil {
+                matchIndices = wordMatches
+            }
+            else {
+                print("matchIndices!.intersection(wordMatches)", matchIndices!.intersection(wordMatches))
+                matchIndices = matchIndices!.intersection(wordMatches)
             }
         }
+        
+        let indices = matchIndices ?? []
+        print("final indices-", indices)
+        
+        searchMovies = indices.sorted().compactMap { index in
+            index < searchAllMovies.count ? searchAllMovies[index] : nil
+        }
+        print("searchMovies count: \(searchMovies.count)")
     }
     
     func saveToRecents(_ movie: Results) {

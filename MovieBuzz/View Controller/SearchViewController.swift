@@ -30,6 +30,7 @@ class SearchViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        //syncs UI with VM state
         didSearchMovies()
         
         if !viewModel.lastSearch.isEmpty {

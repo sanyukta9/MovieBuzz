@@ -8,6 +8,8 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
+    
+    //property injection
     var viewModel: MovieDetailViewModel!
     
     @IBOutlet weak var tableView: UITableView!

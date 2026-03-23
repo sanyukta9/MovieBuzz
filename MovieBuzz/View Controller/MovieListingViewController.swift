@@ -60,7 +60,7 @@ class MovieListingViewController: UIViewController {
             //passing movies to the searchVC
         if segue.identifier == "SearchSegue" {
             guard let searchVC = segue.destination as? SearchViewController else { return }
-            print("prepare fired — movies count: \(viewModel.movies.count)")
+            print("prepare SearchSegue fired")
             searchViewModel.configure(with: viewModel.movies)
             searchVC.viewModel = searchViewModel //same obj passed every visit
         }
@@ -91,7 +91,6 @@ extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource
     
     //through the segue directly land on searchPage instead of listingPage
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        print("searchBarShouldBeginEditing fired")
         performSegue(withIdentifier: "SearchSegue", sender: nil)
         return false //prevent keyboard opening on listingPage
     }
