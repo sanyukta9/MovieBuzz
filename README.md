@@ -11,7 +11,8 @@ A UIKit-based iOS app built on MVC/MVVM architecture, integrated with the TMDB A
 - Reviews, Cast, Similar Movies sections
 - Search with Trie-based prefix matching
 - Recently searched movies
-- Protocol-delegate MVVM binding
+- Protocol-delegate binding
+- Implemented Combine binding
 
 ---
 
