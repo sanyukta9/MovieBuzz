@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class SearchViewController: UIViewController {
     
     var viewModel = SearchViewModel()
+    
+    var cancellable = Set<AnyCancellable>()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -20,7 +23,8 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         // Do any additional setup after loading the view.
-        viewModel.delegate = self
+        //viewModel.delegate = self
+        setupBindings()
         searchBar.delegate = self
         recentLabel.isHidden = true // hidden by default
         navigationItem.hidesBackButton = true // hide default back
@@ -31,7 +35,9 @@ class SearchViewController: UIViewController {
         super.viewDidAppear(animated)
         
         //syncs UI with VM state
-        didSearchMovies()
+        //didSearchMovies()
+        tableView.reloadData()
+        recentLabel.isHidden = viewModel.shouldShowRecentLabel
         
         if !viewModel.lastSearch.isEmpty {
             searchBar.text = viewModel.lastSearch
@@ -41,6 +47,20 @@ class SearchViewController: UIViewController {
             searchBar.becomeFirstResponder()
         }
 
+    }
+    
+    private func setupBindings() {
+        Publishers.CombineLatest3(
+            viewModel.$searchMovies,
+            viewModel.$recentMovies,
+            viewModel.$isSearching
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _, _, _ in
+            self?.recentLabel.isHidden = self?.viewModel.shouldShowRecentLabel ?? true
+            self?.tableView.reloadData()
+        }
+        .store(in: &cancellable)
     }
     
     //pass movies to SearchVC
@@ -112,18 +132,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UISe
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
-
-    
 }
 
-extension SearchViewController: SearchDelegate {
-    func didSearchMovies() {
-        recentLabel.isHidden = viewModel.shouldShowRecentLabel
-        tableView.reloadData()
-    }
-    
-    func didFailWithError(error: String) {
-        print("Error: \(error)")
-    }
-}
-
+//extension SearchViewController: SearchDelegate {
+//    func didSearchMovies() {
+//        recentLabel.isHidden = viewModel.shouldShowRecentLabel
+//        tableView.reloadData()
+//    }
+//    
+//    func didFailWithError(error: String) {
+//        print("Error: \(error)")
+//    }
+//}

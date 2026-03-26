@@ -6,32 +6,35 @@
 //
 
 import Foundation
+import Combine
 
 //protocol
-protocol SearchDelegate: AnyObject {
-    func didSearchMovies()
-    func didFailWithError(error: String)
-}
+//protocol SearchDelegate: AnyObject {
+//    func didSearchMovies()
+//    func didFailWithError(error: String)
+//}
 
 class SearchViewModel {
-    weak var delegate: SearchDelegate?
+//    weak var delegate: SearchDelegate?
     
     var searchAllMovies: [Results] = []
     let trie = Trie()
     
         //MARK: - Observer. Read only for other classes. Only this VM modify. Property Observer. Notify to VC once updated.
-    private(set) var searchMovies: [Results] = [] {
-            //didSet { isSearchUpdated?() }
-        didSet { delegate?.didSearchMovies() }
-    }
-    private(set) var recentMovies: [Results] = [] {
-            //didSet { isRecentUpdated?() }
-        didSet { delegate?.didSearchMovies() }
-    }
+//    private(set) var searchMovies: [Results] = [] {
+//            //didSet { isSearchUpdated?() }
+//        didSet { delegate?.didSearchMovies() }
+//    }
+//    private(set) var recentMovies: [Results] = [] {
+//            //didSet { isRecentUpdated?() }
+//        didSet { delegate?.didSearchMovies() }
+//    }
+    @Published private(set) var searchMovies: [Results] = []
+    @Published private(set) var recentMovies: [Results] = []
     
         // MARK: - State
-    private(set) var isSearching: Bool = false
-    private(set) var lastSearch: String = "" 
+    @Published private(set) var isSearching: Bool = false
+    private(set) var lastSearch: String = ""
     
         // MARK: - What table reads from
     var displayMovies: [Results] {

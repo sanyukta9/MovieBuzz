@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class MovieDetailViewController: UIViewController {
     
@@ -14,6 +15,8 @@ class MovieDetailViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    private var cancellable = Set<AnyCancellable>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -21,7 +24,8 @@ class MovieDetailViewController: UIViewController {
         tableView.rowHeight = 250
         setupTableView()
         //setupBindings()
-        viewModel.delegate = self
+        //viewModel.delegate = self
+        setupBindings()
         viewModel.fetchAll()
     }
     
@@ -53,9 +57,25 @@ class MovieDetailViewController: UIViewController {
 //            print("Error: \(message)")
 //        }
 //    }
+    private func setupBindings() {
+        
+        //MARK: - details, review, cast, similar
+        Publishers.CombineLatest4(
+            viewModel.$details,
+            viewModel.$reviews,
+            viewModel.$casts,
+            viewModel.$similar
+        )
+        .dropFirst()
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _, _, _, _ in
+            self?.tableView.reloadData()
+        }
+        .store(in: &cancellable)
+    }
 }
 
-    //MARK: - Deleagte, Data Source, Row Height
+    //MARK: - Delegate, Data Source, Row Height
     
 extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -139,14 +159,12 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
 //    }
 }
 
-extension MovieDetailViewController: MovieDetailDelegate {
-    func didUpdateData() {
-        tableView.reloadData()
-    }
-    
-    func didFailWithError(error: String) {
-        print("Error: \(error)")
-    }
-    
-    
-}
+//extension MovieDetailViewController: MovieDetailDelegate {
+//    func didUpdateData() {
+//        tableView.reloadData()
+//    }
+//    
+//    func didFailWithError(error: String) {
+//        print("Error: \(error)")
+//    }
+//}

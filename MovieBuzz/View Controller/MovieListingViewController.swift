@@ -5,6 +5,7 @@
 //  Created by Sanyukta Adhate on 12/02/26.
 //
 import UIKit
+import Combine
 
 class MovieListingViewController: UIViewController {
     private let viewModel = MovieListingViewModel()
@@ -12,6 +13,8 @@ class MovieListingViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    private var cancellable = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +24,8 @@ class MovieListingViewController: UIViewController {
         tableView.dataSource = self
         searchBar.delegate = self
         //setupBindings()
-        viewModel.delegate = self
+        //viewModel.delegate = self
+        setupBindings()
         viewModel.fetchAllMovies()
     }
     
@@ -34,6 +38,15 @@ class MovieListingViewController: UIViewController {
 //            print("Error: \(message)")
 //        }
 //    }
+    
+    private func setupBindings() {
+        viewModel.$movies
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellable)
+    }
     
         //runs before navigation to next screen and lets you pass the data.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -97,13 +110,13 @@ extension MovieListingViewController: UITableViewDelegate, UITableViewDataSource
     
 }
 
-extension MovieListingViewController: MovieListingDelegate {
-    func didUpdateMovies() {
-        tableView.reloadData()
-    }
-    
-    func didFailWithError(error: String) {
-        print("Error: \(error)")
-    }
-    
-}
+//extension MovieListingViewController: MovieListingDelegate {
+//    func didUpdateMovies() {
+//        tableView.reloadData()
+//    }
+//    
+//    func didFailWithError(error: String) {
+//        print("Error: \(error)")
+//    }
+//    
+//}

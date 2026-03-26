@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import Combine
 
 //protocol
-protocol MovieDetailDelegate: AnyObject {
-    func didUpdateData()
-    func didFailWithError(error: String)
-}
+//protocol MovieDetailDelegate: AnyObject {
+//    func didUpdateData()
+//    func didFailWithError(error: String)
+//}
 
 class MovieDetailViewModel {
-    weak var delegate: MovieDetailDelegate?
+//    weak var delegate: MovieDetailDelegate?
     
     //MARK: - Input
     let movieId: Int
@@ -24,10 +25,14 @@ class MovieDetailViewModel {
     }
     
     //MARK: - Read only for other classes. Only this VM modify. Property Observer. Notify to VC once updated.
-    private(set) var details: DetailsResponse?
-    private(set) var reviews: [ReviewsResults] = []
-    private(set) var casts: [CastResults] = []
-    private(set) var similar: [Results] = []
+//    private(set) var details: DetailsResponse?
+//    private(set) var reviews: [ReviewsResults] = []
+//    private(set) var casts: [CastResults] = []
+//    private(set) var similar: [Results] = []
+    @Published private(set) var details: DetailsResponse?
+    @Published private(set) var reviews: [ReviewsResults] = []
+    @Published private(set) var casts: [CastResults] = []
+    @Published private(set) var similar: [Results] = []
     
     //MARK: - Computed Properties
     //0
@@ -66,8 +71,9 @@ class MovieDetailViewModel {
             guard let self else { return }
             if let response {
                 self.details = response
-            } else {
-                self.delegate?.didFailWithError(error: "Failed to load Movie Details")
+            }
+            else {
+                print("Failed to load Movie Details")
             }
             group.leave()
         }
@@ -81,8 +87,9 @@ class MovieDetailViewModel {
             guard let self else { return }
             if let review = response?.results {
                 self.reviews = review
-            } else {
-                self.delegate?.didFailWithError(error: "Failed to load Reviews")
+            }
+            else {
+                print("Failed to load Reviews")
             }
             group.leave()
         }
@@ -96,8 +103,9 @@ class MovieDetailViewModel {
             guard let self else { return }
             if let cast = response?.cast {
                 self.casts = cast
-            } else {
-                self.delegate?.didFailWithError(error: "Failed to load Casts")
+            }
+            else {
+                print("Failed to load Casts")
             }
             group.leave()
         }
@@ -111,15 +119,16 @@ class MovieDetailViewModel {
             guard let self else { return }
             if let similar = response?.results {
                 self.similar = similar
-            } else {
-                self.delegate?.didFailWithError(error: "Failed to load Similar Movies")
+            }
+            else {
+                print("Failed to load Similar Movies")
             }
             group.leave()
         }
         
-        group.notify(queue: .main) { [weak self] in
+        group.notify(queue: .main) {
             print("All 4 APIs Called")
-            self?.delegate?.didUpdateData() // reload everything at once
+//            self?.delegate?.didUpdateData() // reload everything at once
         }
     }
 }
