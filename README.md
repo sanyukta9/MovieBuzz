@@ -12,7 +12,7 @@ A UIKit-based iOS app built on MVC/MVVM architecture, integrated with the TMDB A
 - Search with Trie-based prefix matching
 - Recently searched movies
 - Protocol-delegate binding
-- Implemented Combine binding
+- Implemented combine binding
 
 ---
 
